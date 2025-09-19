@@ -14,7 +14,9 @@
 
 /* PROTOTIPOS: NO CAMBIAR LAS FIRMAS */
 void max_heapify(int a[], int n, int i);
+
 void build_max_heap(int a[], int n);
+
 void heap_sort(int a[], int n);
 
 /* MAIN de prueba mínima */
@@ -30,8 +32,7 @@ int main(void) {
         if (i) putchar(' ');
         printf("%d", a[i]);
     }
-    putchar('
-');
+    putchar(' ');
 
     free(a);
     return 0;
@@ -39,13 +40,44 @@ int main(void) {
 
 /* IMPLEMENTAR AQUÍ */
 void max_heapify(int a[], int n, int i) {
-    /* TODO */
+    int largest = i;        // largest es el ancestro
+    int l = 2*i+1;          // indice izquierdo
+    int r = 2*i+2;          // indice derecho
+
+    // Si la hoja izquierda es mayor a la raiz
+    if (l<n && a[l]>a[largest]) {
+        largest = l;
+    }
+
+    // Si la hoja izquierda es mayor a la raiz
+    if (r<n && a[r] > a[largest]) {
+        largest = r;
+    }
+
+    // Si el largest no es la raiz
+    if (largest != i) {
+        // Intercambiamos
+        int temp = a[i];
+        a[i] = a[largest];
+        a[largest] = temp;
+
+        // Llamamos recursivamente para los sub-arboles
+        max_heapify(a, n, largest);
+    }
 }
 
 void build_max_heap(int a[], int n) {
-    /* TODO */
+    for (int i = (n/2 -1); i>=0 ; i--){
+        max_heapify(a, n, i);
+    }
 }
 
 void heap_sort(int a[], int n) {
-    /* TODO */
+    build_max_heap(a, n);
+    for (int i = n-1; i >= 0; i--){
+        int temp = a[0];
+        a[0] = a[i];
+        a[i] = temp;
+        max_heapify(a, i, 0);
+    }
 }
